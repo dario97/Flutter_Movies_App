@@ -1,7 +1,6 @@
-import 'package:app_peliculas/pages/MyFavoritesPage.dart';
-import 'package:app_peliculas/pages/SearchPage.dart';
-import 'package:app_peliculas/widgets/CatalogoWidget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:app_peliculas/src/ui/pages/MyFavoritesPage.dart';
+import 'package:app_peliculas/src/ui/pages/SearchPage.dart';
+import 'package:app_peliculas/src/ui/widgets/CatalogoWidget.dart';
 import 'package:flutter/material.dart';
 
 
@@ -16,6 +15,11 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   List<String> _titulos = ["Catálogo", "Buscar", "Mis Favoritos"];
   
+  @override
+  void dispose() {
+    print("Homepage Dispose");
+    super.dispose();
+  }
   final List<Widget> _children = [
     Expanded(child: CatalogoWidget()),
     SearchPage(),
@@ -41,6 +45,7 @@ class _HomePageState extends State<HomePage> {
           _children[_currentIndex],
         ],
       ),
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.refresh), onPressed: null,),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTap,
         currentIndex: _currentIndex,

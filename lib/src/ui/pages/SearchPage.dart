@@ -1,5 +1,5 @@
-import 'package:app_peliculas/main.dart';
-import 'package:app_peliculas/widgets/BotonesBusqueda.dart';
+
+import 'package:app_peliculas/src/ui/widgets/BotonesBusqueda.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatelessWidget {

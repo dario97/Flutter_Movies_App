@@ -1,6 +1,7 @@
 
+import 'package:app_peliculas/src/ui/pages/FilmDetailsPage.dart';
 import 'package:flutter/material.dart';
-import 'pages/HomePage.dart';
+import 'ui/pages/HomePage.dart';
 
 
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: FilmDetailsPage("5555")
     );
   }
 }
