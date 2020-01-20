@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   
   @override
   void dispose() {
-    print("Homepage Dispose");
     super.dispose();
   }
   final List<Widget> _children = [
