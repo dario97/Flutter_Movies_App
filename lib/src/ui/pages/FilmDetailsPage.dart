@@ -108,6 +108,6 @@ class FilmDetailsPage extends StatelessWidget {
           children: <Widget>[Text("DURACIÓN")],
         ),
       ),
-    );
+    );dadadadada dsadasdasda
   }
 }
