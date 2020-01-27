@@ -1,3 +1,4 @@
+import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:app_peliculas/src/resources/Repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -6,7 +7,6 @@ import 'BlocBase.dart';
 class MoviesBloc extends BlocBase {
   final Repository _repository = Repository();
   final _movies = PublishSubject();
-  final _movie = PublishSubject();
 
   fetchAllMovies() async {
     var allMovies = await _repository.getAllMovies();
@@ -14,13 +14,10 @@ class MoviesBloc extends BlocBase {
   }
 
   Stream get allMovies => _movies.stream;
-  
-  getMovieByID(movieID){
-    var movie = _repository.getMovieById(movieID);
-    _movie.sink.add(movie);
-    return _movie;
 
-
+  Future<Movie> getMovieByID(movieID) async {
+    Movie movie = await _repository.getMovieById(movieID);
+    return movie;
   }
 
   @override

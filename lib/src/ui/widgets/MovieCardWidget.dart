@@ -3,8 +3,8 @@ import 'package:app_peliculas/src/ui/pages/FilmDetailsPage.dart';
 import 'package:flutter/material.dart';
 
 class MovieCardWidget extends StatefulWidget {
-  String imageUrl;
-  String movieID;
+  final String imageUrl;
+  final String movieID;
   MovieCardWidget(this.imageUrl, this.movieID);
 
   @override

@@ -1,9 +1,9 @@
 import 'Language.dart';
 import 'Genre.dart';
 
-class Pelicula {
+class Movie {
   String _tittle;
-  DateTime _duration;
+  String _duration;
   List<Genre> _genres;
   Language _audioLanguage;
   Language _subsLanguage;
@@ -11,10 +11,23 @@ class Pelicula {
   String _sinopsis;
   String _directorName;
   String _releaseYear;
+  String _imageUrl;
+  String _bannerImageUrl;
 
-  Pelicula(
+  Movie.fromJson(Map<String, dynamic> json) {
+    this._tittle = json['titulo'];
+    this._sinopsis = json['sinopsis'];
+    this._bannerImageUrl = json['bannerImageUrl'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        'titulo': _tittle,
+        'bannerImageUrl': _bannerImageUrl,
+      };
+
+  Movie(
       String tittle,
-      DateTime duration,
+      String duration,
       List<Genre> genres,
       Language audioLanguage,
       Language subsLanguage,
@@ -35,11 +48,15 @@ class Pelicula {
 
   String get getTittle => _tittle;
 
+  String get getImageUrl => _imageUrl;
+  
+  String get getBannerImageUrl => _bannerImageUrl;
+  
   set setTittle(String value) => _tittle = value;
 
-  DateTime get getDuration => _duration;
+  String get getDuration => _duration;
 
-  set setDuration(DateTime duration) => _duration = duration;
+  set setDuration(String duration) => _duration = duration;
 
   List get getGenres => _genres;
 
@@ -47,7 +64,8 @@ class Pelicula {
 
   Language get getAudioLenguage => _audioLanguage;
 
-  set setAudioLanguage(Language audioLanguage) => _audioLanguage = audioLanguage;
+  set setAudioLanguage(Language audioLanguage) =>
+      _audioLanguage = audioLanguage;
 
   Language get getSubsLanguage => _subsLanguage;
 

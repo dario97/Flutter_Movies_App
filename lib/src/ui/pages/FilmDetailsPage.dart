@@ -1,11 +1,10 @@
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
+import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:flutter/material.dart';
 
 class FilmDetailsPage extends StatefulWidget {
-  String _movieId;
-  FilmDetailsPage(String movieId) {
-    this._movieId = movieId;
-  }
+  final String _movieId;
+  FilmDetailsPage(this._movieId);
 
   @override
   _FilmDetailsPageState createState() => _FilmDetailsPageState(_movieId);
@@ -14,7 +13,9 @@ class FilmDetailsPage extends StatefulWidget {
 class _FilmDetailsPageState extends State<FilmDetailsPage> {
   String _movieID;
   MoviesBloc _moviesBloc;
-  var _movieStream;
+  Future<Movie> _movie;
+  Size _screenSize;
+
   _FilmDetailsPageState(String movieID) {
     this._moviesBloc = MoviesBloc();
     this._movieID = movieID;
@@ -23,47 +24,56 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   void initState() {
     super.initState();
-    _movieStream = _moviesBloc.getMovieByID(_movieID);
+    _screenSize = MediaQuery.of(context).size;
+    _movie = _moviesBloc.getMovieByID(_movieID);
   }
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.favorite),
         onPressed: null,
       ),
-      body: StreamBuilder(
-          stream: _movieStream,
-          builder: (context, snapshot) {
-            String url = snapshot.data.document["imageUrl"];
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _buildPortada(screenSize.width, url),
-                _buildHeader(),
-                _buildSinopsis(screenSize.width),
-                _buildMovieDetails(screenSize.width)
-              ],
+      body: FutureBuilder(
+        future: _movie,
+        builder: (BuildContext context, AsyncSnapshot<Movie> snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }),
-    );
-  }
-
-  Widget _buildPortada(double screenWidth, String imageUrl) {
-    return Container(
-      width: screenWidth,
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.fitHeight,
+          if (snapshot.hasError) return Text("Error");
+          String bannerImageUrl = snapshot.data.getBannerImageUrl;
+          String sinopsis = snapshot.data.getSinopsis;
+          String tittle = snapshot.data.getTittle;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildPortada(bannerImageUrl),
+              _buildHeader(tittle),
+              _buildSinopsis(sinopsis),
+              _buildMovieDetails()
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildPortada(String imageUrl) {
+    return Container(
+      width: _screenSize.width,
+      height: 200,
+      child: Image.network(
+        imageUrl,
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  Widget _buildHeader(String tittle) {
     return Container(
       margin: EdgeInsets.all(5),
       child: Column(
@@ -76,7 +86,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
             children: <Widget>[
               Container(
                 child: Text(
-                  "Avengers: Infinity War",
+                  tittle,
                   style: TextStyle(fontSize: 22),
                 ),
               ),
@@ -115,23 +125,23 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
     );
   }
 
-  Widget _buildSinopsis(screenWidth) {
+  Widget _buildSinopsis(String sinopsis) {
     return Container(
-      width: screenWidth,
+      width: _screenSize.width,
       height: 170,
       child: Card(
         margin: EdgeInsets.all(5),
         child: Text(
-          "Los superhéroes se alían para vencer al poderoso Thanos, el peor enemigo al que se han enfrentado. Si Thanos logra reunir las seis gemas del infinito: poder, tiempo, alma, realidad, mente y espacio, nadie podrá detenerlo.",
+          sinopsis,
           softWrap: true,
         ),
       ),
     );
   }
 
-  Widget _buildMovieDetails(double screenWidth) {
+  Widget _buildMovieDetails() {
     return Container(
-      width: screenWidth,
+      width: _screenSize.width,
       height: 200,
       child: Card(
         margin: EdgeInsets.all(5),
