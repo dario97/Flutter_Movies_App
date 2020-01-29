@@ -1,5 +1,6 @@
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
+import 'package:app_peliculas/src/resources/LocalStorage.dart';
 import 'package:flutter/material.dart';
 
 class FilmDetailsPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   MoviesBloc _moviesBloc;
   Future<Movie> _movie;
   Size _screenSize;
+  final LocalStorage _localStorage = LocalStorage();
 
   _FilmDetailsPageState(String movieID) {
     this._moviesBloc = MoviesBloc();
@@ -24,17 +26,30 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   void initState() {
     super.initState();
-    _screenSize = MediaQuery.of(context).size;
     _movie = _moviesBloc.getMovieByID(_movieID);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _screenSize = MediaQuery.of(context).size;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.favorite),
-        onPressed: null,
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+            child: Icon(Icons.favorite),
+            onPressed: () {
+              _saveFavorite();
+              final snackBar = SnackBar(
+                content: Text('Añadido a Mis Favoritos'),
+                duration: Duration(seconds: 1),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            }),
       ),
       body: FutureBuilder(
         future: _movie,
@@ -60,6 +75,10 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
         },
       ),
     );
+  }
+
+  void _saveFavorite() {
+    _localStorage.writeFavorite(_movieID);
   }
 
   Widget _buildPortada(String imageUrl) {

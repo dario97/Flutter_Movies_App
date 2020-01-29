@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
           _children[_currentIndex],
         ],
       ),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.refresh), onPressed: null,),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTap,
         currentIndex: _currentIndex,
