@@ -87,6 +87,12 @@ class Movie {
 
   set setReleaseYear(String value) => _releaseYear = value;
 
+  List<String> getMovieData(){
+    List<String> movieData = List();
+    movieData.add(null);
+    return movieData;
+  }
+
   bool addGenre(Genre genre) {
     if (_genres.contains(genre)) {
       return false;

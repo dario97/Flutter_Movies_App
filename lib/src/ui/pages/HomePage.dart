@@ -1,6 +1,6 @@
 import 'package:app_peliculas/src/ui/pages/MyFavoritesPage.dart';
 import 'package:app_peliculas/src/ui/pages/SearchPage.dart';
-import 'package:app_peliculas/src/ui/widgets/CatalogoWidget.dart';
+import 'package:app_peliculas/src/ui/pages/CatalogPage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
   final List<Widget> _children = [
-    Expanded(child: CatalogoWidget()),
+    Expanded(child: CatalogPage()),
     SearchPage(),
     Expanded(child: MyFavoritesPage()),
   ];

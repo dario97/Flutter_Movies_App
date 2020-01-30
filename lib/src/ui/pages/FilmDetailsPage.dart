@@ -1,10 +1,12 @@
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:app_peliculas/src/resources/LocalStorage.dart';
+import 'package:app_peliculas/src/ui/widgets/RateIndicatorWidget.dart';
 import 'package:flutter/material.dart';
 
 class FilmDetailsPage extends StatefulWidget {
   final String _movieId;
+
   FilmDetailsPage(this._movieId);
 
   @override
@@ -12,16 +14,14 @@ class FilmDetailsPage extends StatefulWidget {
 }
 
 class _FilmDetailsPageState extends State<FilmDetailsPage> {
-  String _movieID;
-  MoviesBloc _moviesBloc;
+  final MoviesBloc _moviesBloc = MoviesBloc();
+  final LocalStorage _localStorage = LocalStorage();
+  final String _movieID;
+
   Future<Movie> _movie;
   Size _screenSize;
-  final LocalStorage _localStorage = LocalStorage();
 
-  _FilmDetailsPageState(String movieID) {
-    this._moviesBloc = MoviesBloc();
-    this._movieID = movieID;
-  }
+  _FilmDetailsPageState(this._movieID);
 
   @override
   void initState() {
@@ -69,7 +69,6 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
               _buildPortada(bannerImageUrl),
               _buildHeader(tittle),
               _buildSinopsis(sinopsis),
-              _buildMovieDetails()
             ],
           );
         },
@@ -99,46 +98,47 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Container(
+            child: Text(
+              tittle,
+              style: TextStyle(fontSize: 22),
+              softWrap: true,
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                child: Text(
-                  tittle,
-                  style: TextStyle(fontSize: 22),
-                ),
+              RateIndicatorWidget("7.5"),
+              SizedBox(
+                width: 5,
               ),
+              _buildDataField("Género", "Animada, Acción, Superheroes")
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.stars,
-                      color: Colors.blue,
-                    ),
-                    Text(
-                      "7.5",
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
+              _buildDataField("Estreno", "2018"),
+              SizedBox(
+                width: 5,
               ),
-              Container(
-                child: Text(
-                  "Género: Acción, Superheroes, Marvel",
-                  style: TextStyle(fontSize: 14),
-                  softWrap: true,
-                ),
-              ),
+              _buildDataField("Duración", "180min"),
             ],
-          )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildDataField("Idioma", "Inglés"),
+              SizedBox(
+                width: 5,
+              ),
+              _buildDataField("Subtítulos", "Español, Inglés")
+            ],
+          ),
+          _buildDataField("Director", "Darío Emanuel Márquez")
         ],
       ),
     );
@@ -158,19 +158,12 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
     );
   }
 
-  Widget _buildMovieDetails() {
+  Widget _buildDataField(String fieldName, String data) {
     return Container(
-      width: _screenSize.width,
-      height: 200,
-      child: Card(
-        margin: EdgeInsets.all(5),
-        elevation: 2,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[Text("DURACIÓN")],
-        ),
+      child: Text(
+        "$fieldName: $data",
+        style: TextStyle(fontSize: 14),
+        softWrap: true,
       ),
     );
   }

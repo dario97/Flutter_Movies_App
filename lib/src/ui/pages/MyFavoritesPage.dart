@@ -1,8 +1,6 @@
-import 'dart:typed_data';
+
 
 import 'package:app_peliculas/src/ui/widgets/FilmListTileWidget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class MyFavoritesPage extends StatefulWidget {

@@ -3,30 +3,34 @@ import 'package:app_peliculas/src/ui/widgets/MovieCardWidget.dart';
 import 'package:flutter/material.dart';
 
 class FilaCatalogoWidget extends StatefulWidget {
-  FilaCatalogoWidget();
+  final Stream _movies;
+  FilaCatalogoWidget(this._movies);
 
   @override
-  _FilaCatalogoWidgetState createState() => _FilaCatalogoWidgetState();
+  _FilaCatalogoWidgetState createState() => _FilaCatalogoWidgetState(_movies);
 }
 
 class _FilaCatalogoWidgetState extends State<FilaCatalogoWidget> {
-  final _bloc = MoviesBloc();
+  // final _bloc = MoviesBloc();
+  final Stream _movies;
+  
+  _FilaCatalogoWidgetState(this._movies);
 
   @override
   void initState() {
     super.initState();
-    _bloc.fetchAllMovies();
+    // _bloc.fetchAllMovies();
   }
 
   @override
   void dispose() {
-    _bloc.dispose();
+    // _bloc.dispose();
     super.dispose();
   }
 
-  _buildMoviesStream() {
-    return _bloc.allMovies;
-  }
+  // _buildMoviesStream() {
+  //   return _bloc.allMovies;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,7 @@ class _FilaCatalogoWidgetState extends State<FilaCatalogoWidget> {
               )),
           Expanded(
             child: StreamBuilder(
-              stream: _buildMoviesStream(),
+              stream: _movies,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) return Text("Cargando...");
                 if (snapshot.hasError) return Text("Error");
