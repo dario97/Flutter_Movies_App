@@ -46,6 +46,7 @@ class _FilaCatalogoWidgetState extends State<FilaCatalogoWidget> {
                 "TÍTULO",
                 style: TextStyle(
                   fontSize: 20.0,
+                  // color: Colors.white,
                 ),
                 textAlign: TextAlign.left,
               )),
@@ -53,7 +54,7 @@ class _FilaCatalogoWidgetState extends State<FilaCatalogoWidget> {
             child: StreamBuilder(
               stream: _movies,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) return Text("Cargando...");
+                if (!snapshot.hasData) return Text("Cargando...", style: TextStyle(color: Colors.white),);
                 if (snapshot.hasError) return Text("Error");
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,

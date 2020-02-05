@@ -1,6 +1,7 @@
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:app_peliculas/src/resources/LocalStorage.dart';
+import 'package:app_peliculas/src/ui/widgets/DataFieldWidget.dart';
 import 'package:app_peliculas/src/ui/widgets/RateIndicatorWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
             child: Icon(Icons.favorite),
@@ -113,32 +114,32 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
               SizedBox(
                 width: 5,
               ),
-              _buildDataField("Género", "Animada, Acción, Superheroes")
+              DataFieldWidget("Género", "Animada, Acción, Superheroes")
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildDataField("Estreno", "2018"),
+              DataFieldWidget("Estreno", "2018"),
               SizedBox(
                 width: 5,
               ),
-              _buildDataField("Duración", "180min"),
+              DataFieldWidget("Duración", "180min"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildDataField("Idioma", "Inglés"),
+              DataFieldWidget("Idioma", "Inglés"),
               SizedBox(
                 width: 5,
               ),
-              _buildDataField("Subtítulos", "Español, Inglés")
+              DataFieldWidget("Subtítulos", "Español, Inglés")
             ],
           ),
-          _buildDataField("Director", "Darío Emanuel Márquez")
+          DataFieldWidget("Director", "Darío Emanuel Márquez")
         ],
       ),
     );
@@ -154,16 +155,6 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
           sinopsis,
           softWrap: true,
         ),
-      ),
-    );
-  }
-
-  Widget _buildDataField(String fieldName, String data) {
-    return Container(
-      child: Text(
-        "$fieldName: $data",
-        style: TextStyle(fontSize: 14),
-        softWrap: true,
       ),
     );
   }

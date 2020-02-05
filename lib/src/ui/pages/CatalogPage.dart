@@ -10,17 +10,19 @@ class CatalogPage extends StatefulWidget {
 }
 
 class _CatalogPageState extends State<CatalogPage> {
-  final _bloc = MoviesBloc();
+  final _moviesBloc = MoviesBloc();
   Widget fila;
   
   @override
   void initState() {
     super.initState();
-    _bloc.fetchAllMovies();
-    fila = FilaCatalogoWidget(_bloc.allMovies);
+    _moviesBloc.fetchAllMovies();
+    fila = FilaCatalogoWidget(_moviesBloc.getAllMovies);
   }
+
   @override
   void dispose() {
+    _moviesBloc.dispose();
     super.dispose();
   }
 
@@ -35,5 +37,9 @@ class _CatalogPageState extends State<CatalogPage> {
         return fila;
       },
     );
+  }
+
+  _buildFilaCatalogo(){
+    return null;
   }
 }

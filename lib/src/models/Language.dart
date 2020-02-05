@@ -3,8 +3,9 @@ class Language {
 
   Language(this._languageName);
 
-  // GETTERS AND SETTERS
-  String get languageName => _languageName;
 
-  set languageName(String languageName) => _languageName = languageName;
+  // GETTERS AND SETTERS
+  String get getLanguageName => this._languageName;
+
+  set setLanguageName(String languageName) => this._languageName = languageName;
 }

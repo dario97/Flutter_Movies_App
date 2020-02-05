@@ -9,7 +9,7 @@ class RateIndicatorWidget extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          Icon(Icons.stars, color: Colors.blue,),
+          Icon(Icons.stars, color: Colors.yellow,),
           Text(_rate, style: TextStyle(fontSize: 14)),
         ],
       ),

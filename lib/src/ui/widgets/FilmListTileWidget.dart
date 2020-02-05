@@ -1,3 +1,4 @@
+import 'package:app_peliculas/src/ui/widgets/DataFieldWidget.dart';
 import 'package:flutter/material.dart';
 
 class FilmListTileWidget extends StatefulWidget {
@@ -21,7 +22,8 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
     return Container(
       width: _screenSize.width,
       height: 100,
-      margin: EdgeInsets.all(2),
+      margin: EdgeInsets.all(5),
+      color: Colors.white12,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,15 +55,15 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
           SizedBox(
             height: 5,
           ),
-          Text("Género: Animada, Comedia, Niños"),
+          DataFieldWidget("Género", "Animada, Comedia, Niños"),
           SizedBox(
             height: 5,
           ),
-          Text("Idioma: Inglés"),
+          DataFieldWidget("Idioma", "Inglés"),
           SizedBox(
             height: 5,
           ),
-          Text("Subtitulos: Español")
+          DataFieldWidget("Subtítulos", "Español")
         ],
       ),
     );

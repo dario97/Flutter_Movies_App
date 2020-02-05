@@ -3,7 +3,6 @@ import 'package:app_peliculas/src/ui/pages/SearchPage.dart';
 import 'package:app_peliculas/src/ui/pages/CatalogPage.dart';
 import 'package:flutter/material.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -12,23 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-  List<String> _titulos = ["Catálogo", "Buscar", "Mis Favoritos"];
-  
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  final List<String> _titulos = ["Catálogo", "Buscar", "Mis Favoritos"];
   final List<Widget> _children = [
-    Expanded(child: CatalogPage()),
+    CatalogPage(),
     SearchPage(),
-    Expanded(child: MyFavoritesPage()),
+    MyFavoritesPage()
   ];
+
+  int _currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: null,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
@@ -41,7 +37,9 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _children[_currentIndex],
+          Expanded(
+            child: _children[_currentIndex],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -54,9 +52,10 @@ class _HomePageState extends State<HomePage> {
 
   List<BottomNavigationBarItem> _buildNavigationBarItems() {
     return [
-      BottomNavigationBarItem(icon: Icon(Icons.book), title: Text("Catálogo")),
-      BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("Buscar")),
-      BottomNavigationBarItem(icon: Icon(Icons.favorite_border), title: Text("Mis Favoritos"))
+      BottomNavigationBarItem(icon: Icon(Icons.book), title: Text(_titulos[0])),
+      BottomNavigationBarItem(icon: Icon(Icons.search), title: Text(_titulos[1])),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.favorite_border), title: Text(_titulos[2]))
     ];
   }
 
