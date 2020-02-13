@@ -1,3 +1,4 @@
+import 'package:app_peliculas/src/blocs/FilmDetailsPageBloc.dart';
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:app_peliculas/src/resources/LocalStorage.dart';
@@ -16,7 +17,8 @@ class FilmDetailsPage extends StatefulWidget {
 
 class _FilmDetailsPageState extends State<FilmDetailsPage> {
   final MoviesBloc _moviesBloc = MoviesBloc();
-  final LocalStorage _localStorage = LocalStorage();
+  final FilmDetailsPageBloc _filmDetailsPageBloc = FilmDetailsPageBloc();
+
   final String _movieID;
 
   Future<Movie> _movie;
@@ -78,7 +80,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   }
 
   void _saveFavorite() {
-    _localStorage.writeFavorite(_movieID);
+    _filmDetailsPageBloc.saveFavorite(_movieID);
   }
 
   Widget _buildPortada(String imageUrl) {

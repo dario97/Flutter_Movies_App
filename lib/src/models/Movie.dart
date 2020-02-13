@@ -17,11 +17,14 @@ class Movie {
   Movie.fromJson(Map<String, dynamic> json) {
     this._tittle = json['titulo'];
     this._sinopsis = json['sinopsis'];
+    this._imageUrl = json['imageUrl'];
     this._bannerImageUrl = json['bannerImageUrl'];
   }
 
   Map<String, dynamic> toJson() => {
         'titulo': _tittle,
+        'sinopsis': _sinopsis,
+        'imageUrl': _imageUrl,
         'bannerImageUrl': _bannerImageUrl,
       };
 
@@ -49,9 +52,9 @@ class Movie {
   String get getTittle => _tittle;
 
   String get getImageUrl => _imageUrl;
-  
+
   String get getBannerImageUrl => _bannerImageUrl;
-  
+
   set setTittle(String value) => _tittle = value;
 
   String get getDuration => _duration;
@@ -87,7 +90,7 @@ class Movie {
 
   set setReleaseYear(String value) => _releaseYear = value;
 
-  List<String> getMovieData(){
+  List<String> getMovieData() {
     List<String> movieData = List();
     movieData.add(null);
     return movieData;

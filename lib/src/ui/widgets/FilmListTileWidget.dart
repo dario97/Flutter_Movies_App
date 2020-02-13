@@ -1,15 +1,22 @@
+import 'package:app_peliculas/src/blocs/MyFavoritesPageBloc.dart';
+import 'package:app_peliculas/src/models/Movie.dart';
 import 'package:app_peliculas/src/ui/widgets/DataFieldWidget.dart';
 import 'package:flutter/material.dart';
 
 class FilmListTileWidget extends StatefulWidget {
-  FilmListTileWidget({Key key}) : super(key: key);
+  final Movie _movie;
+  FilmListTileWidget(this._movie);
 
   @override
-  _FilmListTileWidgetState createState() => _FilmListTileWidgetState();
+  _FilmListTileWidgetState createState() => _FilmListTileWidgetState(_movie);
 }
 
 class _FilmListTileWidgetState extends State<FilmListTileWidget> {
   Size _screenSize;
+  final Movie _movie;
+  final MyFavoritesPageBloc _favoritesPageBloc = MyFavoritesPageBloc();
+
+  _FilmListTileWidgetState(this._movie);
 
   @override
   void didChangeDependencies() {
@@ -29,19 +36,23 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _buildLeading(),
-          SizedBox(
-            width: 10,
-          ),
+          Spacer(),
           _buildInfo(),
+          Spacer(),
+          IconButton(icon: Icon(Icons.delete), onPressed: () {
+            _deleteFavorite();
+          })
         ],
       ),
     );
   }
 
+  void _deleteFavorite() {
+    _favoritesPageBloc.deleteFavorite(_movie);
+  }
+
   Widget _buildLeading() {
-    return Image.asset(
-      "assets/toy_story_4.jpg",
-    );
+    return Image.network(_movie.getImageUrl);
   }
 
   Widget _buildInfo() {
@@ -51,7 +62,7 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Toy Story 4", style: TextStyle(fontSize: 18)),
+          Text(_movie.getTittle, style: TextStyle(fontSize: 18)),
           SizedBox(
             height: 5,
           ),

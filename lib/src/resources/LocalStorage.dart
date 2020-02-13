@@ -13,8 +13,12 @@ class LocalStorage {
     return File('$path/favorites.txt');
   }
 
+  saveFavorite(){
+
+  }
+
   Future<bool> writeFavorite(String favoriteID) async {
-    List<String> favorites = await this.readFavorite();
+    List<String> favorites = await this.readFavorites();
     if (favorites.contains(favoriteID)) {
       return false;
     } else {
@@ -25,7 +29,7 @@ class LocalStorage {
     }
   }
 
-  Future<List<String>> readFavorite() async {
+  Future<List<String>> readFavorites() async {
     List<String> contents = List<String>();
     try {
       final file = await _getLocalFile;
