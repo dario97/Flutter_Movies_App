@@ -36,6 +36,7 @@ class _MovieCardWidgetState extends State<MovieCardWidget> {
     return Container(
       width: _screenSize.width / 2.7,
       child: Card(
+        color: Colors.white12,
         child: InkWell(
           onTap: () {
             Navigator.push(

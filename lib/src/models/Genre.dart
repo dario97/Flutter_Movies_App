@@ -2,9 +2,13 @@ class Genre {
   String _genreName;
 
   Genre(this._genreName);
-  
-  // GETTERS AND SETTERS
-  String get genreName => _genreName;
+  Genre.fromJson(Map<String, dynamic> json) {
+    this._genreName = json['genreName'];
+  }
+  Map<String, dynamic> toJson() => {
+        'genreName': this._genreName,
+      };
 
-  set genreName(String value) => _genreName = value;
+  // GETTERS AND SETTERS
+  String get getGenreName => _genreName;
 }

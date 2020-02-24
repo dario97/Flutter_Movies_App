@@ -9,7 +9,7 @@ class FirestoreProvider {
   Future<QuerySnapshot> getAllMovies() {
     return _firestore.collection("Peliculas").getDocuments();
   }
-
+  
   Future<DocumentSnapshot> getMovieById(String documentID) {
     return _firestore.collection("Peliculas").document(documentID).get();
   }
@@ -19,4 +19,18 @@ class FirestoreProvider {
         await _storageReference.child(imageName).getDownloadURL();
     return downloadUrl;
   }
+
+  Future<DocumentSnapshot> getDirectorById(String documentID){
+    return _firestore.collection("Director").document(documentID).get();
+  }
+
+  Future<DocumentSnapshot> getGenreById(String documentID){
+    return _firestore.collection("Genre").document(documentID).get();
+  }
+
+  Future<DocumentSnapshot> getLanguageById(String documentID){
+    return _firestore.collection("Language").document(documentID).get();
+  }
+
+
 }
