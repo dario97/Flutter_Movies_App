@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app_peliculas/src/blocs/MyFavoritesPageBloc.dart';
 import 'package:app_peliculas/src/ui/widgets/FilmListTileWidget.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
@@ -22,6 +20,10 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     favs = _myFavoritesPageBloc.getFavorites();
   }
 
+  void _deleteFavorite(film) {
+    _myFavoritesPageBloc.deleteFavorite(film);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -33,16 +35,33 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
           return Center(child: Text("Error al cargar sus favoritos."));
         if (snapshot.data.isEmpty) {
           return Center(
-            child: Text("No tenés favoritos."),
+            child: Text("Tu lista está vacia."),
           );
         } else {
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
-                  background: Container(color: Colors.red, child: Icon(Icons.delete),),
-                  onDismissed: (direction) {  },    
+                  background: Container(
+                      color: Colors.redAccent,
+                      child: Row(
+                        children: <Widget>[
+                          Spacer(),
+                          Container(
+                              margin: EdgeInsets.all(10),
+                              child: Row(
+                                children: <Widget>[
+                                  Text("ELIMINAR"),
+                                  Icon(Icons.delete),
+                                ],
+                              ))
+                        ],
+                      )),
+                  onDismissed: (DismissDirection direction) {
+                    _deleteFavorite(snapshot.data[index]);
+                  },
                   key: Key(snapshot.data[index].getTittle),
+                  direction: DismissDirection.endToStart,
                   child: FilmListTileWidget(snapshot.data[index]));
             },
           );

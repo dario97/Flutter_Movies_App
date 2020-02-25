@@ -40,17 +40,9 @@ class _FilmListTileWidgetState extends State<FilmListTileWidget> {
           _buildLeading(),
           SizedBox(width: 10,),
           _buildInfo(),
-          Spacer(),
-          IconButton(icon: Icon(Icons.delete), onPressed: () {
-            _deleteFavorite();
-          })
         ],
       ),
     );
-  }
-
-  void _deleteFavorite() {
-    _favoritesPageBloc.deleteFavorite(_film);
   }
 
   Widget _buildLeading() {
