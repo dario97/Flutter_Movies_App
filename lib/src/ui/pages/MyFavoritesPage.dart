@@ -12,34 +12,49 @@ class MyFavoritesPage extends StatefulWidget {
 
 class _MyFavoritesPageState extends State<MyFavoritesPage> {
   final MyFavoritesPageBloc _myFavoritesPageBloc = MyFavoritesPageBloc();
-  Future<List<Movie>> favs;
+  int _counter;
+  Future<List<Movie>> _favs;
 
   @override
   void initState() {
     super.initState();
-    favs = _myFavoritesPageBloc.getFavorites();
+    _favs = _myFavoritesPageBloc.getFavorites();
   }
 
   void _deleteFavorite(film) {
     _myFavoritesPageBloc.deleteFavorite(film);
   }
 
+  void _decCounter() {
+    if (_counter > 0) {
+      _counter--;
+    }
+  }
+
+  void _dismissFav() {
+    _decCounter();
+    if (_counter == 0) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: favs,
+      future: _favs,
       builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         if (snapshot.hasError)
           return Center(child: Text("Error al cargar sus favoritos."));
-        if (snapshot.data.isEmpty) {
+        if (snapshot.data.isEmpty || _counter == 0) {
           return Center(
             child: Text("Tu lista está vacia."),
           );
         } else {
+          _counter = snapshot.data.length;
           return ListView.builder(
-            itemCount: snapshot.data.length,
+            itemCount: _counter,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                   background: Container(
@@ -59,8 +74,9 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
                       )),
                   onDismissed: (DismissDirection direction) {
                     _deleteFavorite(snapshot.data[index]);
+                    _dismissFav();
                   },
-                  key: Key(snapshot.data[index].getTittle),
+                  key: UniqueKey(),
                   direction: DismissDirection.endToStart,
                   child: FilmListTileWidget(snapshot.data[index]));
             },

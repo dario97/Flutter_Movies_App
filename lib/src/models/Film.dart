@@ -12,6 +12,10 @@ abstract class Film {
   String _imageUrl = "";
   String _bannerImageUrl = "";
 
+  Film.fromJson(Map<String, dynamic> json){
+
+  }
+
   String get getTittle => _tittle;
   List<Genre> get getGenre => _genre;
   Language get getLanguage => _language;

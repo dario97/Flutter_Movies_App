@@ -11,7 +11,9 @@ class MoviesBloc extends BlocBase {
 
   fetchAllMovies() async {
     var allMovies = await _repository.getAllMovies();
-    _movies.sink.add(allMovies);
+    if(!_movies.isClosed){
+      _movies.sink.add(allMovies);
+    }
   }
 
   PublishSubject<QuerySnapshot> get getAllMovies => _movies.stream;

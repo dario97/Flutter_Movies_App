@@ -3,7 +3,7 @@ import 'package:app_peliculas/src/models/Film.dart';
 import 'Language.dart';
 import 'Genre.dart';
 
-class Movie extends Film {
+class Movie extends Film{
   String _tittle;
   int _duration;
   List<Genre> _genre;
@@ -16,7 +16,7 @@ class Movie extends Film {
   String _imageUrl;
   String _bannerImageUrl;
 
-  Movie.fromJson(Map<String, dynamic> json) {
+  Movie.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     List<Genre> genres = List();
     List<Language> subLanguages = List();
 
@@ -72,26 +72,26 @@ class Movie extends Film {
         'bannerImageUrl': this._bannerImageUrl,
       };
 
-  Movie(
-      String tittle,
-      int duration,
-      List<Genre> genres,
-      Language audioLanguage,
-      List<Language> subsLanguage,
-      double rate,
-      String sinopsis,
-      Director director,
-      int releaseYear) {
-    this._tittle = tittle;
-    this._duration = duration;
-    this._genre = genres;
-    this._language = audioLanguage;
-    this._subtittlesLanguage = subsLanguage;
-    this._rate = rate;
-    this._sinopsis = sinopsis;
-    this._director = director;
-    this._releaseYear = releaseYear;
-  }
+  // Movie(
+  //     String tittle,
+  //     int duration,
+  //     List<Genre> genres,
+  //     Language audioLanguage,
+  //     List<Language> subsLanguage,
+  //     double rate,
+  //     String sinopsis,
+  //     Director director,
+  //     int releaseYear) {
+  //   this._tittle = tittle;
+  //   this._duration = duration;
+  //   this._genre = genres;
+  //   this._language = audioLanguage;
+  //   this._subtittlesLanguage = subsLanguage;
+  //   this._rate = rate;
+  //   this._sinopsis = sinopsis;
+  //   this._director = director;
+  //   this._releaseYear = releaseYear;
+  // }
 
   String get getTittle => _tittle;
 
