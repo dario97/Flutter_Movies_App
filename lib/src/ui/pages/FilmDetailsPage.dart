@@ -1,5 +1,6 @@
 import 'package:app_peliculas/src/blocs/FilmDetailsPageBloc.dart';
 import 'package:app_peliculas/src/blocs/MoviesBloc.dart';
+import 'package:app_peliculas/src/models/Film.dart';
 import 'package:app_peliculas/src/models/Genre.dart';
 import 'package:app_peliculas/src/models/Language.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
@@ -19,9 +20,11 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   static final FilmDetailsPageBloc _filmDetailsPageBloc = FilmDetailsPageBloc();
   final String _movieID;
 
-  Future<Movie> _futureMovie;
-  Movie _movie;
+  Future<Movie>_futureMovie;
+  Movie _film;
+  List<String> _movieData;
   Size _screenSize;
+  bool _isLoad;
 
   _FilmDetailsPageState(this._movieID);
 
@@ -29,6 +32,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   void initState() {
     super.initState();
     _futureMovie = _moviesBloc.getMovieByID(_movieID);
+    _isLoad = false;
   }
 
   @override
@@ -42,7 +46,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
+        builder: (context) =>  FloatingActionButton(
             child: Icon(Icons.favorite),
             onPressed: () {
               _saveFavorite();
@@ -61,7 +65,9 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
               child: CircularProgressIndicator(),
             );
           if (snapshot.hasError) return Text("Error");
-          _movie = snapshot.data;
+
+          _film = snapshot.data;
+      
           return ListView(
             children: <Widget>[
               _buildPortada(),
@@ -80,12 +86,12 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   }
 
   Widget _buildPortada() {
-    String imageUrl = _movie.getBannerImageUrl;
+    String imageUrl = _film.getBannerImageUrl;
     return Container(
       color: Colors.white12,
       width: _screenSize.width,
       height: 200,
-      child: FadeInImage.assetNetwork(  
+      child: FadeInImage.assetNetwork(
         placeholder: 'assets/loading.gif',
         image: imageUrl,
         fit: BoxFit.fill,
@@ -97,15 +103,15 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   Widget _buildHeader() {
     String subLanguages = "";
     String genre = "";
-    for (Language item in _movie.getSubsLanguage) {
-      if (item == _movie.getSubsLanguage.last) {
+    for (Language item in _film.getSubsLanguage) {
+      if (item == _film.getSubsLanguage.last) {
         subLanguages += item.getLanguageName;
       } else {
         subLanguages += item.getLanguageName + " | ";
       }
     }
-    for (Genre item in _movie.getGenres) {
-      if (item == _movie.getGenres.last) {
+    for (Genre item in _film.getGenre) {
+      if (item == _film.getGenre.last) {
         genre += item.getGenreName;
       } else {
         genre += item.getGenreName + " | ";
@@ -119,7 +125,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
         children: <Widget>[
           Container(
             child: Text(
-              _movie.getTittle,
+              _film.getTittle,
               style: TextStyle(fontSize: 22),
               softWrap: true,
             ),
@@ -129,11 +135,11 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            "Director: ${_movie.getDirector.getName}",
+            "Director: ${_film.getDirector.getName}",
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            "Idioma: ${_movie.getAudioLenguage.getLanguageName}",
+            "Idioma: ${_film.getLanguage.getLanguageName}",
             style: TextStyle(color: Colors.grey),
           ),
           Text(
@@ -158,9 +164,9 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
 
   List<Widget> _buildIcons() {
     return [
-      _buildIconData(Icons.star_border, "${_movie.getRate}"),
-      _buildIconData(Icons.timer, "${_movie.getDuration} min"),
-      _buildIconData(Icons.calendar_today, "${_movie.getReleaseYear}"),
+      _buildIconData(Icons.star_border, "${_film.getRate}"),
+      _buildIconData(Icons.timer, "${_film.getDuration} min"),
+      _buildIconData(Icons.calendar_today, "${_film.getReleaseYear}"),
     ];
   }
 
@@ -179,7 +185,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> {
   }
 
   Widget _buildSinopsis() {
-    String synopsis = _movie.getSinopsis;
+    String synopsis = _film.getSinopsis;
     return Container(
       width: _screenSize.width,
       // height: 170,

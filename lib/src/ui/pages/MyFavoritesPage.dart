@@ -49,7 +49,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
           return Center(child: Text("Error al cargar sus favoritos."));
         if (snapshot.data.isEmpty || _counter == 0) {
           return Center(
-            child: Text("Tu lista está vacia."),
+            child: Text("Oops, no tenés favoritos."),
           );
         } else {
           _counter = snapshot.data.length;

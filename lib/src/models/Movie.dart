@@ -3,56 +3,44 @@ import 'package:app_peliculas/src/models/Film.dart';
 import 'Language.dart';
 import 'Genre.dart';
 
-class Movie extends Film{
+class Movie implements Film {
   String _tittle;
   int _duration;
+  Director _director;
   List<Genre> _genre;
   Language _language;
   List<Language> _subtittlesLanguage;
   double _rate;
   String _sinopsis;
-  Director _director;
   int _releaseYear;
   String _imageUrl;
   String _bannerImageUrl;
 
-  Movie.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    List<Genre> genres = List();
-    List<Language> subLanguages = List();
+  Movie.fromJson(Map<String, dynamic> json) {
+    List listL = json['subtittlesLanguage'];
+    List listG = json['genre'];
 
     Map<String, dynamic> directorJson = Map.from(json['director']);
     Map<String, dynamic> languageJson = Map.from(json['language']);
-    Language language = Language.fromJson(languageJson);
-    Director director = Director.fromJson(directorJson);
 
-    List genreListJson = json['genre'];
-    List languageListJson = json['subtittlesLanguage'];
+    List<Genre> genresList = listG.map((i) {
+      Map<String, dynamic> genreJson = Map.from(i);
+      return Genre.fromJson(genreJson);
+    }).toList();
 
-    for (var element in genreListJson) {
-      Map<String, dynamic> genreJson = Map.from(element);
-      Genre genre = Genre.fromJson(genreJson);
-      genres.add(genre);
-    }
-
-    for (var element in languageListJson) {
-      Map<String, dynamic> languageJson = Map.from(element);
-      Language language = Language.fromJson(languageJson);
-      subLanguages.add(language);
-    }
-
-    json['director'] = director;
-    json['language'] = language;
-    json['genre'] = genres;
-    json['subtittlesLanguage'] = subLanguages;
+    List<Language> subLanguagesList = listL.map((i) {
+      Map<String, dynamic> languageJson = Map.from(i);
+      return Language.fromJson(languageJson);
+    }).toList();
 
     this._tittle = json['titulo'];
     this._duration = json['duration'];
-    this._genre = List<Genre>.from(json['genre']);
-    this._language = json['language'];
-    this._subtittlesLanguage = List<Language>.from(json['subtittlesLanguage']);
+    this._director = Director.fromJson(directorJson);
+    this._genre = genresList;
+    this._language = Language.fromJson(languageJson);
+    this._subtittlesLanguage = subLanguagesList;
     this._rate = json['rate'];
     this._sinopsis = json['sinopsis'];
-    this._director = json['director'];
     this._releaseYear = json['releaseYear'];
     this._imageUrl = json['imageUrl'];
     this._bannerImageUrl = json['bannerImageUrl'];
@@ -60,38 +48,17 @@ class Movie extends Film{
 
   Map<String, dynamic> toJson() => {
         'titulo': this._tittle,
-        'duration': this._duration,
         'genre': this._genre,
+        'director': this._director,
+        'duration': this._duration,
         'language': this._language,
         'subtittlesLanguage': this._subtittlesLanguage,
         'rate': this._rate,
         'sinopsis': this._sinopsis,
-        'director': this._director,
         'releaseYear': this._releaseYear,
         'imageUrl': this._imageUrl,
         'bannerImageUrl': this._bannerImageUrl,
       };
-
-  // Movie(
-  //     String tittle,
-  //     int duration,
-  //     List<Genre> genres,
-  //     Language audioLanguage,
-  //     List<Language> subsLanguage,
-  //     double rate,
-  //     String sinopsis,
-  //     Director director,
-  //     int releaseYear) {
-  //   this._tittle = tittle;
-  //   this._duration = duration;
-  //   this._genre = genres;
-  //   this._language = audioLanguage;
-  //   this._subtittlesLanguage = subsLanguage;
-  //   this._rate = rate;
-  //   this._sinopsis = sinopsis;
-  //   this._director = director;
-  //   this._releaseYear = releaseYear;
-  // }
 
   String get getTittle => _tittle;
 
@@ -105,11 +72,11 @@ class Movie extends Film{
 
   set setDuration(int duration) => _duration = duration;
 
-  List get getGenres => _genre;
+  List<Genre> get getGenre => _genre;
 
-  set setGenres(List value) => _genre = value;
+  set setGenre(List value) => _genre = value;
 
-  Language get getAudioLenguage => _language;
+  Language get getLanguage => _language;
 
   set setAudioLanguage(Language audioLanguage) => _language = audioLanguage;
 
@@ -134,9 +101,43 @@ class Movie extends Film{
 
   set setReleaseYear(int value) => _releaseYear = value;
 
+  /// Devuelve un List<String> con la información de la película en el siguiente orden:
+  /// [tittle, duration, directorName, genres, language, subsLanguage, rate, sinopsis, releaseYear, imageUrl, bannerImageUrl]
   List<String> getMovieData() {
     List<String> movieData = List();
-    movieData.add(null);
+    List<Genre> genresList = this.getGenre;
+    List<Language> languagesList = this.getSubsLanguage;
+    String genres = "";
+    String subsLanguage = "";
+
+    for (Genre genre in genresList) {
+      if (genre == genresList.last) {
+        genres += genre.getGenreName;
+      } else {
+        genres += genre.getGenreName + " | ";
+      }
+    }
+
+    for (Language language in languagesList) {
+      if (language == languagesList.last) {
+        subsLanguage += language.getLanguageName;
+      } else {
+        subsLanguage += language.getLanguageName + " | ";
+      }
+    }
+
+    movieData.add(this.getTittle);
+    movieData.add(this.getDuration.toString());
+    movieData.add(this.getDirector.getName);
+    movieData.add(genres);
+    movieData.add(this.getLanguage.getLanguageName);
+    movieData.add(subsLanguage);
+    movieData.add(this.getRate.toString());
+    movieData.add(this.getSinopsis);
+    movieData.add(this.getReleaseYear.toString());
+    movieData.add(this.getImageUrl);
+    movieData.add(this.getBannerImageUrl);
+
     return movieData;
   }
 

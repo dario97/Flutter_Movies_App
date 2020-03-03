@@ -1,4 +1,5 @@
 
+import 'package:app_peliculas/src/models/Film.dart';
 import 'package:app_peliculas/src/models/Genre.dart';
 import 'package:app_peliculas/src/models/Language.dart';
 import 'package:app_peliculas/src/models/Movie.dart';
@@ -44,8 +45,8 @@ class FilmListTileWidget extends StatelessWidget {
         subLanguages += item.getLanguageName + " | ";
       }
     }
-    for (Genre item in _film.getGenres) {
-      if (item == _film.getGenres.last) {
+    for (Genre item in _film.getGenre) {
+      if (item == _film.getGenre.last) {
         genre += item.getGenreName;
       } else {
         genre += item.getGenreName + " | ";
@@ -65,7 +66,7 @@ class FilmListTileWidget extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          DataFieldWidget("Idioma", "${_film.getAudioLenguage.getLanguageName}"),
+          DataFieldWidget("Idioma", "${_film.getLanguage.getLanguageName}"),
           SizedBox(
             height: 5,
           ),

@@ -1,17 +1,16 @@
-
-
 class Director {
   String _name = "";
   String _imageUrl = "";
 
   Director(this._name, this._imageUrl);
-  Director.nameOnly(this._name);
-  Director.fromJson(Map<String, dynamic> json) {
-    this._name = json['name'];
-    if(json.containsKey('imageUrl')){
-      this._imageUrl = json['imageUrl'];
+  // Director.nameOnly(this._name);
+
+  factory Director.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('imageUrl')) {
+      return Director(json['name'], json['imageUrl']);
+    } else {
+      return Director(json['name'], "");
     }
-    
   }
 
   Map<String, dynamic> toJson() => {
