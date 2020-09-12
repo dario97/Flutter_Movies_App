@@ -1,4 +1,9 @@
-# app_peliculas
+# Flutter Movies App
+Aplicacion de catalogo de peliculas desarrollado con el framework Flutter y utilizando Firebase como base de datos.
+
+# Screenshots de la aplicacion.
+<img src="MainScreen" width="40%"> <img src="MovieScreen" width="40%">
+<img src="FavsScreen" width="40%">
 
 A new Flutter project.
 
